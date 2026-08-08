@@ -5,3 +5,10 @@
 # Draft content
 drafts/
 *.draft.mdx
+
+# Agent and spec tooling
+.claude/
+.codex/
+.spec/
+AGENTS.md
+CLAUDE.md

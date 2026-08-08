@@ -38,6 +38,7 @@
         "group": "用法",
         "pages": [
           "agents",
+          "devices",
           "chat",
           "groups",
           "contacts"
