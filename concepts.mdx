@@ -1,0 +1,90 @@
+---
+title: "Core Concepts: Understanding How Gugu Works"
+sidebarTitle: "Concepts"
+description: "Get familiar with the key concepts behind Gugu — workspaces, content, tags, collections, API keys, and collaborators — before you start building."
+---
+
+Before you dive deep into Gugu, it helps to understand the core concepts that underpin the entire platform. These building blocks — workspaces, content, tags, collections, API keys, and collaborators — are the vocabulary you'll encounter throughout the product and its documentation. Once you understand how they relate to each other, using Gugu will feel natural and intuitive.
+
+## Workspace
+
+A workspace is your dedicated environment inside Gugu. It acts as the top-level container for everything you do on the platform — your content, your collections, your tags, your collaborators, and your settings all live within a single workspace.
+
+When you create a Gugu account, your personal workspace is set up automatically. You can use it on your own or invite collaborators to join you. Teams typically operate from a shared workspace so everyone has access to the same content and organizational structure.
+
+<Info>
+  You can belong to multiple workspaces — for example, a personal workspace and one or more team workspaces. Use the workspace switcher in the top-left corner of the dashboard to move between them.
+</Info>
+
+## Content
+
+Content is any item you store and manage inside Gugu. A content item can be a document, a note, a structured data record, a reference article, or anything else you want to keep in your workspace.
+
+Every content item has a title, a body, a creation date, and an update date. You can enrich it further by applying tags, adding it to one or more collections, and attaching custom metadata. All content is indexed immediately on save, which means it's available in search the moment you create it.
+
+<Tip>
+  Be consistent with how you structure your content items. Establishing a naming convention early — especially for titles — makes search and filtering much more effective as your workspace grows.
+</Tip>
+
+## Tags
+
+Tags are short, descriptive labels you apply to content items to help you organize and filter them. A single content item can have multiple tags, and a single tag can be applied to any number of content items across your workspace.
+
+Tags are freeform text, so you can create them on the fly as you work. Common uses for tags include marking content by project name (`project-alpha`), content type (`meeting-notes`, `spec`), status (`draft`, `published`), or owner (`team-design`).
+
+<Accordion title="Tips for effective tagging">
+  - Keep tags lowercase and hyphenated for consistency (e.g., `product-roadmap` instead of `Product Roadmap`).
+  - Avoid creating too many single-use tags — if a tag applies to only one item, a descriptive title might serve you better.
+  - Review and clean up unused tags periodically from **Settings → Tags**.
+  - Use tags alongside collections for maximum flexibility: tags for quick cross-cutting filters, collections for curated groupings.
+</Accordion>
+
+## Collections
+
+A collection is a curated group of related content items. Where tags provide flexible, cross-cutting labels, collections give you a more structured way to organize content into meaningful groupings — for example, an "Onboarding Materials" collection or a "Q3 Campaign Assets" collection.
+
+You can add a single content item to multiple collections, and collections can be nested inside each other to create a hierarchy. Collections appear in the sidebar for easy navigation and can be shared with specific collaborators or kept private to yourself.
+
+<Note>
+  Collections and tags work best together. Think of tags as a fast, informal way to slice across your content, and collections as a deliberate, organized home for content that belongs together.
+</Note>
+
+## API Key
+
+An API key is a credential that grants programmatic access to your Gugu workspace. You use it to authenticate requests to the Gugu REST API, allowing you to create, read, update, and delete content — as well as manage tags, collections, and collaborators — from any HTTP client, script, or application.
+
+You can generate and manage your API keys from **Settings → API Keys**. Each key can be given a descriptive name so you know which application or integration is using it. You can revoke any key at any time without affecting your other keys or your Gugu account.
+
+<Warning>
+  Treat your API key like a password. Never hard-code it into client-side code, commit it to a public repository, or share it over insecure channels. If you suspect a key has been compromised, revoke it immediately and generate a replacement.
+</Warning>
+
+## Collaborators
+
+Collaborators are team members you invite to access your workspace. When you add a collaborator, you assign them a role that determines what they can see and do within the workspace.
+
+Gugu supports the following built-in roles:
+
+- **Owner** — full access to all content, settings, billing, and collaborator management. Each workspace has exactly one owner.
+- **Admin** — can manage content, collections, tags, and collaborators, but cannot change billing or transfer ownership.
+- **Editor** — can create, edit, and delete content and manage tags and collections, but cannot manage collaborators or workspace settings.
+- **Viewer** — read-only access to all content in the workspace.
+
+<Info>
+  Collaborators receive an email invitation when you add them. They need a Gugu account to accept the invitation — if they don't have one yet, they'll be prompted to create one for free.
+</Info>
+
+## How the concepts connect
+
+These concepts are designed to work together as a coherent system. Your **workspace** holds everything. **Content** is what you create and store. **Tags** and **collections** give you two complementary ways to organize that content. Your **API key** lets you interact with all of it programmatically. And **collaborators** let you share the whole environment with your team — each with the appropriate level of access.
+
+Understanding these relationships makes it much easier to plan your workspace structure before you start adding content, which pays dividends as your team and your data grow over time.
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="bolt" href="/quickstart">
+    Put these concepts into practice by following the step-by-step Quickstart guide.
+  </Card>
+  <Card title="API Reference" icon="code" href="/api/introduction">
+    See how these concepts map to API resources in the full API reference.
+  </Card>
+</CardGroup>

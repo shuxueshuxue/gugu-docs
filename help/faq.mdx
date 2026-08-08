@@ -1,0 +1,200 @@
+---
+title: "Frequently Asked Questions About Gugu"
+sidebarTitle: "FAQ"
+description: "Find answers to the most common questions about Gugu, including account management, billing, API access, team collaboration, and data handling."
+---
+
+Whether you're just getting started or a long-time user, this page covers the questions our team hears most often. Browse the topics below to find quick answers — and if something isn't covered here, visit our [contact page](/help/contact) to reach the support team directly.
+
+<Accordion title="How do I reset my password?">
+  If you've forgotten your password or simply want to change it, Gugu makes it easy to regain access.
+
+  <Steps>
+    <Step title="Go to the login page">
+      Navigate to [app.gugu.app/login](https://app.gugu.app/login) and click **Forgot password?** beneath the sign-in form.
+    </Step>
+    <Step title="Enter your email address">
+      Type the email address associated with your Gugu account and click **Send reset link**.
+    </Step>
+    <Step title="Check your inbox">
+      Open the password reset email from `noreply@gugu.app`. The link expires after **60 minutes**, so act promptly.
+    </Step>
+    <Step title="Set a new password">
+      Click the link in the email, enter a new password that meets the strength requirements, and click **Save password**. You'll be signed in automatically.
+    </Step>
+  </Steps>
+
+  <Tip>
+    If the reset email doesn't appear within a few minutes, check your spam or junk folder. Still nothing? Contact [support@gugu.app](mailto:support@gugu.app).
+  </Tip>
+</Accordion>
+
+<Accordion title="How do I get an API key?">
+  API keys let you authenticate programmatic requests to the Gugu API. You can generate and manage keys from your account settings.
+
+  <Steps>
+    <Step title="Open API settings">
+      Click your avatar in the top-right corner and select **Settings → API Keys**.
+    </Step>
+    <Step title="Create a new key">
+      Click **Generate API Key**, give it a descriptive name (e.g., `production-backend`), and choose an expiry duration.
+    </Step>
+    <Step title="Copy and store it securely">
+      Your key is shown **once**. Copy it to a password manager or secrets vault immediately — you won't be able to retrieve it again.
+    </Step>
+  </Steps>
+
+  <Warning>
+    Never commit API keys to source control or share them in public channels. If a key is compromised, revoke it immediately from the **API Keys** settings page and generate a new one.
+  </Warning>
+</Accordion>
+
+<Accordion title="How do I invite team members?">
+  You can invite colleagues to your Gugu workspace so they can collaborate on content and projects together.
+
+  <Steps>
+    <Step title="Open Team settings">
+      Navigate to **Settings → Team** from the sidebar.
+    </Step>
+    <Step title="Enter the invitee's email">
+      Click **Invite Member**, type their email address, and select their role — **Viewer**, **Editor**, or **Admin**.
+    </Step>
+    <Step title="Send the invitation">
+      Click **Send Invite**. The invitee receives an email with a link to accept the invitation and create or connect their account.
+    </Step>
+  </Steps>
+
+  <Note>
+    Pending invitations expire after **7 days**. You can resend or revoke them at any time from the **Team** settings page. The number of seats available depends on your current plan.
+  </Note>
+</Accordion>
+
+<Accordion title="What file types can I upload?">
+  Gugu supports a wide range of file types for content and asset uploads. The table below outlines what's accepted.
+
+  | Category   | Supported formats                              |
+  |------------|------------------------------------------------|
+  | Images     | `.jpg`, `.jpeg`, `.png`, `.gif`, `.webp`, `.svg` |
+  | Documents  | `.pdf`, `.docx`, `.txt`, `.md`                 |
+  | Data       | `.csv`, `.json`, `.xlsx`                       |
+  | Video      | `.mp4`, `.mov`, `.webm`                        |
+  | Audio      | `.mp3`, `.wav`, `.ogg`                         |
+
+  The maximum file size per upload is **500 MB**. If you need to work with larger files, contact support to discuss options available on enterprise plans.
+
+  <Info>
+    Files you upload are scanned for malware before becoming available in your dashboard. Most scans complete within a few seconds.
+  </Info>
+</Accordion>
+
+<Accordion title="Is my data backed up?">
+  Yes. Gugu automatically backs up all workspace data — including content, settings, and uploaded files — on a continuous basis.
+
+  - **Continuous replication** keeps a real-time replica in a geographically separate data center.
+  - **Daily snapshots** are retained for **30 days**, giving you point-in-time recovery.
+  - **Weekly archives** are retained for **12 months** on Pro and Enterprise plans.
+
+  If you need to restore data from a specific point in time, contact [support@gugu.app](mailto:support@gugu.app) with your workspace name and the approximate date you'd like to restore to.
+</Accordion>
+
+<Accordion title="How do I cancel my subscription?">
+  You can cancel your Gugu subscription at any time from the Billing settings. Cancellations take effect at the end of the current billing period — you retain full access until then.
+
+  <Steps>
+    <Step title="Open Billing settings">
+      Go to **Settings → Billing** and click **Manage Subscription**.
+    </Step>
+    <Step title="Select Cancel plan">
+      Click **Cancel Plan** and choose a cancellation reason (optional but appreciated).
+    </Step>
+    <Step title="Confirm cancellation">
+      Review the confirmation details — including your access end date — and click **Confirm Cancellation**.
+    </Step>
+  </Steps>
+
+  <Note>
+    After cancellation your workspace moves to the Free tier. Content and settings are preserved, but features exclusive to paid plans become unavailable. You can resubscribe at any time to restore access.
+  </Note>
+</Accordion>
+
+<Accordion title="Can I export my data?">
+  Yes. Gugu lets you export all of your workspace data in standard formats so you're never locked in.
+
+  <Steps>
+    <Step title="Go to Settings → Data">
+      Click your avatar, select **Settings**, then choose **Data & Privacy**.
+    </Step>
+    <Step title="Request an export">
+      Click **Export My Data**. Gugu packages your content, files, and account information into a `.zip` archive.
+    </Step>
+    <Step title="Download the archive">
+      You'll receive an email with a secure download link within **30 minutes**. The link is valid for 48 hours.
+    </Step>
+  </Steps>
+
+  The export includes your content items, uploaded assets, workspace settings, team membership records, and API key names (not the key values themselves).
+</Accordion>
+
+<Accordion title="How do I change my email address?">
+  You can update the email address linked to your Gugu account from your profile settings.
+
+  <Steps>
+    <Step title="Open Profile settings">
+      Click your avatar in the top-right corner and select **Settings → Profile**.
+    </Step>
+    <Step title="Edit your email">
+      Click the pencil icon next to your current email address and type the new one.
+    </Step>
+    <Step title="Verify the new address">
+      Gugu sends a verification email to the new address. Click the link inside to confirm the change. Until you verify, your old email remains active.
+    </Step>
+  </Steps>
+
+  <Warning>
+    If you use a social login (Google, GitHub), your Gugu email is tied to that provider. Change your primary email there first, then re-authenticate in Gugu.
+  </Warning>
+</Accordion>
+
+<Accordion title="What are the rate limits for the API?">
+  Rate limits protect platform stability and ensure fair usage across all workspaces. Limits are applied per API key on a rolling **60-second** window.
+
+  | Plan       | Requests per minute | Requests per day |
+  |------------|---------------------|------------------|
+  | Free       | 30                  | 1,000            |
+  | Pro        | 300                 | 50,000           |
+  | Enterprise | Custom              | Custom           |
+
+  Every API response includes headers that show your current usage:
+
+  ```http
+  X-RateLimit-Limit: 300
+  X-RateLimit-Remaining: 247
+  X-RateLimit-Reset: 1714500060
+  ```
+
+  When you exceed the limit, the API returns a `429 Too Many Requests` response. Implement **exponential backoff** in your client and retry after the time indicated in the `Retry-After` header.
+
+  <Tip>
+    If your integration consistently hits rate limits, consider batching requests or caching frequently accessed resources. Need a higher limit? [Contact sales](mailto:sales@gugu.app) to discuss an Enterprise plan.
+  </Tip>
+</Accordion>
+
+<Accordion title="How do I delete my account?">
+  Account deletion is permanent and cannot be undone. We recommend [exporting your data](#can-i-export-my-data) before proceeding.
+
+  <Steps>
+    <Step title="Open Data & Privacy settings">
+      Go to **Settings → Data & Privacy**.
+    </Step>
+    <Step title="Request account deletion">
+      Scroll to the **Danger Zone** section and click **Delete Account**.
+    </Step>
+    <Step title="Confirm with your password">
+      Type your password (or use your SSO provider) to confirm your identity, then click **Permanently Delete**.
+    </Step>
+  </Steps>
+
+  <Warning>
+    Deleting your account removes all of your content, files, API keys, and personal data from Gugu's systems within **30 days** in accordance with our [Privacy Policy](https://gugu.app/privacy). If you own a team workspace, you must transfer ownership or delete the workspace before you can delete your personal account.
+  </Warning>
+</Accordion>

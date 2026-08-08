@@ -1,0 +1,188 @@
+---
+title: "Settings API — Retrieve and Update Account Settings"
+sidebarTitle: "Settings"
+description: "Read and update your Gugu account settings, including notification preferences, appearance options, and workspace configuration."
+---
+
+The Settings API gives you programmatic access to your Gugu account configuration. Use it to read or update notification preferences, control how the workspace looks and feels, and manage workspace-level details like your team name and slug. All endpoints require a valid Bearer token in the `Authorization` header.
+
+---
+
+## Get settings
+
+Returns the current account settings for the authenticated user.
+
+```
+GET /v1/settings
+```
+
+### curl example
+
+```bash
+curl https://api.gugu.app/v1/settings \
+  -H "Authorization: Bearer YOUR_API_TOKEN"
+```
+
+### Response fields
+
+<ResponseField name="notifications" type="object">
+  Preferences that control how and where you receive notifications.
+
+  <Expandable title="notifications fields">
+    <ResponseField name="notifications.email" type="boolean">
+      When `true`, Gugu sends notification emails to your account email address.
+    </ResponseField>
+
+    <ResponseField name="notifications.in_app" type="boolean">
+      When `true`, in-app notifications are shown inside the Gugu dashboard.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="appearance" type="object">
+  Preferences that control the visual presentation of the workspace.
+
+  <Expandable title="appearance fields">
+    <ResponseField name="appearance.theme" type="string">
+      The active UI theme. Accepted values: `light`, `dark`, `system`.
+    </ResponseField>
+
+    <ResponseField name="appearance.density" type="string">
+      The display density of the workspace interface. Accepted values: `comfortable`, `compact`.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="workspace" type="object">
+  Metadata and configuration for your Gugu workspace.
+
+  <Expandable title="workspace fields">
+    <ResponseField name="workspace.name" type="string">
+      The display name of the workspace.
+    </ResponseField>
+
+    <ResponseField name="workspace.slug" type="string">
+      The URL-safe identifier for the workspace, used in shareable links (e.g. `my-team`).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Example response
+
+```json
+{
+  "notifications": {
+    "email": true,
+    "in_app": true
+  },
+  "appearance": {
+    "theme": "dark",
+    "density": "comfortable"
+  },
+  "workspace": {
+    "name": "Acme Engineering",
+    "slug": "acme-engineering"
+  }
+}
+```
+
+---
+
+## Update settings
+
+Updates one or more account settings. You can update any combination of the `notifications`, `appearance`, and `workspace` objects — only the keys you include are changed, and nested keys within each object are also merged rather than replaced entirely.
+
+```
+PUT /v1/settings
+```
+
+### Body parameters
+
+<ParamField body="notifications" type="object">
+  Updated notification preferences. All sub-fields are optional.
+
+  <Expandable title="notifications fields">
+    <ParamField body="notifications.email" type="boolean">
+      Set to `true` to enable email notifications, or `false` to disable them.
+    </ParamField>
+
+    <ParamField body="notifications.in_app" type="boolean">
+      Set to `true` to enable in-app notifications, or `false` to disable them.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="appearance" type="object">
+  Updated appearance preferences. All sub-fields are optional.
+
+  <Expandable title="appearance fields">
+    <ParamField body="appearance.theme" type="string">
+      The UI theme to apply. Accepted values: `light`, `dark`, `system`.
+    </ParamField>
+
+    <ParamField body="appearance.density" type="string">
+      The interface density to apply. Accepted values: `comfortable`, `compact`.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="workspace" type="object">
+  Updated workspace configuration. All sub-fields are optional.
+
+  <Expandable title="workspace fields">
+    <ParamField body="workspace.name" type="string">
+      New display name for the workspace.
+    </ParamField>
+
+    <ParamField body="workspace.slug" type="string">
+      New URL slug for the workspace. Must be lowercase, alphanumeric, and hyphen-separated. Changing the slug will update all shareable workspace links.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+### curl example
+
+```bash
+curl -X PUT https://api.gugu.app/v1/settings \
+  -H "Authorization: Bearer YOUR_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "notifications": {
+      "email": false
+    },
+    "appearance": {
+      "theme": "light",
+      "density": "compact"
+    },
+    "workspace": {
+      "name": "Acme Product"
+    }
+  }'
+```
+
+### Response fields
+
+Returns the full, updated settings object. See [Get settings](#get-settings) for field descriptions.
+
+### Example response
+
+```json
+{
+  "notifications": {
+    "email": false,
+    "in_app": true
+  },
+  "appearance": {
+    "theme": "light",
+    "density": "compact"
+  },
+  "workspace": {
+    "name": "Acme Product",
+    "slug": "acme-engineering"
+  }
+}
+```
+
+<Warning>
+  Changing `workspace.slug` immediately updates all public and shareable links to your workspace. Make sure to communicate the new URL to any collaborators or external integrations before making this change.
+</Warning>

@@ -1,47 +1,104 @@
 ---
-title: "Quickstart"
-description: "Begin with a guide on the fastest path to a successful outcome"
+title: "Quickstart: Get Up and Running with Gugu Fast"
+sidebarTitle: "Quickstart"
+description: "Create your Gugu account, access your dashboard, manage your first piece of content, and make your first API call — all in under ten minutes."
 ---
 
-Describe how someone begins using your product. What is the first thing they need to do? Are there any prerequisites?
-
-A quickstart should take someone from zero to using your product. They'll get a quick win and a sense of what they can accomplish.
-
-## Prerequisites
-
-Before you begin, you must have:
-
-- Requirement one (for example, Node.js 18+, a free account, an API key)
-- Requirement two (for example, a compatible device, a compatible browser, a compatible operating system)
-
-## Get started
+This guide walks you through everything you need to go from a brand-new account to actively using Gugu's core features. By the end, you'll have a workspace set up, a piece of content created and tagged, a successful search under your belt, and your first API call made. No prior experience with Gugu is required.
 
 <Steps>
-  <Step title="Install">
-    Describe how to install your product or sign up.
+  <Step title="Create your account">
+    Navigate to [app.gugu.app](https://app.gugu.app) and click **Sign Up**. You can register with your email address or use one-click sign-up via Google or GitHub.
 
-    ```bash
-    npm install your-package
-    ```
+    Fill in your name, email, and a strong password, then click **Create Account**. Gugu will send you a verification email — open it and click the confirmation link to activate your account.
+
+    <Note>
+      If you don't see the verification email within a couple of minutes, check your spam or junk folder. You can also request a new one from the login page.
+    </Note>
   </Step>
-  <Step title="Configure">
-    Describe any setup or configuration needed before first use.
+  <Step title="Log in and access your dashboard">
+    Once your email is verified, return to [app.gugu.app](https://app.gugu.app) and log in with your credentials. You'll land directly on your **Dashboard**.
 
-    ```bash
-    your-cli init
-    ```
+    Your dashboard is your home base in Gugu. From here you can:
+
+    - View recent content and activity
+    - Navigate to your collections and tags
+    - Manage your workspace settings
+    - Invite collaborators to your team
+
+    Take a moment to familiarize yourself with the sidebar navigation — it gives you quick access to every major section of the platform.
   </Step>
-  <Step title="Run it">
-    Show the first thing a user does to see it working.
+  <Step title="Create your first piece of content">
+    In the sidebar, click **Content**, then click the **New Content** button in the top-right corner of the page.
 
-    ```bash
-    your-cli start
-    ```
+    Give your content a title, add a body, and apply one or more tags to help organize it. When you're happy with it, click **Save**. Your content is now stored in your workspace and immediately available in search.
+
+    <Tip>
+      Use descriptive tags from the start — for example, `project-alpha` or `meeting-notes` — so your workspace stays organized as it grows.
+    </Tip>
+
+    To add your content to a collection, open the content item, click the **Collections** panel on the right, and select an existing collection or create a new one.
+  </Step>
+  <Step title="Use search to find your content">
+    Click the **Search** icon in the top navigation bar or press `Cmd+K` (Mac) / `Ctrl+K` (Windows and Linux) to open the search panel.
+
+    Type a word or phrase from the content you just created. Gugu searches titles, body text, tags, and metadata in real time, so your result should appear immediately.
+
+    You can refine results using filters for content type, date range, tags, and collections. Click any result to open it directly.
   </Step>
 </Steps>
 
-<Tip>
-  Give people a way to get help. This could be a link to a support page, a chat with a customer support agent, or a forum for your product.
+## Make your first API call
 
-  Example: Need help? Reach out to us at [support@yourcompany.com](mailto:support@yourcompany.com).
+Once you're comfortable with the Gugu interface, you can start using the API to interact with your content programmatically. The example below retrieves a list of all content items in your workspace.
+
+<Tip>
+  You can find your API key in **Settings → API Keys**. Click **Generate New Key**, give it a name, and copy the key value — you'll use it as the `Authorization` header in every API request.
 </Tip>
+
+```bash
+curl --request GET \
+  --url https://api.gugu.app/v1/content \
+  --header "Authorization: Bearer YOUR_API_KEY" \
+  --header "Content-Type: application/json"
+```
+
+A successful response returns a JSON array of your content items:
+
+```json
+{
+  "data": [
+    {
+      "id": "cnt_01hx9z3kqr8f2p",
+      "title": "My First Content Item",
+      "tags": ["getting-started", "example"],
+      "created_at": "2024-06-01T10:23:00Z",
+      "updated_at": "2024-06-01T10:23:00Z"
+    }
+  ],
+  "meta": {
+    "total": 1,
+    "page": 1,
+    "per_page": 20
+  }
+}
+```
+
+Replace `YOUR_API_KEY` with the actual key you copied from Settings. You can use any HTTP client — `curl`, Postman, Insomnia, or your preferred programming language's HTTP library.
+
+<Note>
+  Keep your API key private. Do not commit it to source control or share it publicly. If a key is ever compromised, you can revoke it from **Settings → API Keys** and generate a new one immediately.
+</Note>
+
+## What's next?
+
+Now that you've completed the Quickstart, explore these resources to go deeper with Gugu.
+
+<CardGroup cols={2}>
+  <Card title="Core Concepts" icon="graduation-cap" href="/concepts">
+    Understand workspaces, collections, tags, and the other building blocks that power Gugu.
+  </Card>
+  <Card title="API Reference" icon="code" href="/api/introduction">
+    Explore the full Gugu API to automate content management, build integrations, and more.
+  </Card>
+</CardGroup>

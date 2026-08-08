@@ -1,0 +1,149 @@
+---
+title: "Connect Gugu to Your Favorite Tools and Services"
+sidebarTitle: "Integrations"
+description: "Learn how to integrate Gugu with Slack, GitHub, Zapier, and webhooks to automate workflows and keep your tools in sync with your content."
+---
+
+Gugu connects to the tools your team already uses so that content updates, notifications, and automations flow naturally across your stack. Whether you want Slack alerts when something is published, GitHub issues linked to your documents, no-code automation through Zapier, or custom event handling via webhooks, every integration is configured in a few straightforward steps.
+
+## Available integrations
+
+<CardGroup cols={2}>
+  <Card title="Slack" icon="slack">
+    Get real-time notifications in your Slack channels whenever content is created, updated, published, or commented on.
+  </Card>
+  <Card title="GitHub" icon="github">
+    Link content items directly to GitHub repositories and issues, keeping your documentation and code changes in sync.
+  </Card>
+  <Card title="Zapier" icon="bolt">
+    Connect Gugu to more than 5,000 apps through Zapier's no-code automation platform — no engineering work required.
+  </Card>
+  <Card title="Webhooks" icon="webhook">
+    Send real-time event payloads to any URL, giving you full flexibility to build custom workflows and integrations.
+  </Card>
+</CardGroup>
+
+---
+
+## Slack
+
+Receive instant Slack notifications when your team creates, updates, or publishes content in Gugu — keeping everyone in the loop without switching apps.
+
+<Steps>
+  <Step title="Open Integrations settings">
+    Go to **Settings → Integrations** and click on the **Slack** tile.
+  </Step>
+
+  <Step title="Connect your Slack workspace">
+    Click **Connect Slack**. You'll be redirected to Slack's OAuth page. Select the Slack workspace you want to connect and click **Allow**.
+  </Step>
+
+  <Step title="Choose notification channels">
+    Back in Gugu, select one or more Slack channels from the dropdown. You can route different event types (e.g., `content.published`) to different channels.
+  </Step>
+
+  <Step title="Select events to track">
+    Toggle on the events you want to be notified about: **Content created**, **Content published**, **Comment added**, or **Member invited**. Click **Save** to activate the integration.
+  </Step>
+</Steps>
+
+---
+
+## GitHub
+
+Link your Gugu content items to GitHub repositories and issues so that documentation stays tightly coupled with your codebase.
+
+<Steps>
+  <Step title="Open Integrations settings">
+    Navigate to **Settings → Integrations** and select the **GitHub** tile.
+  </Step>
+
+  <Step title="Authorize GitHub access">
+    Click **Connect GitHub** and authenticate with your GitHub account. Grant Gugu access to the repositories you want to link — you can choose specific repos or allow access to all.
+  </Step>
+
+  <Step title="Link a content item to a repo or issue">
+    Open any content item in the editor, scroll to the **Linked resources** section in the right-hand panel, and click **Add link**. Search for a repository or paste a GitHub issue URL, then click **Save link**. The linked resource appears in the panel and in the item's metadata.
+  </Step>
+
+  <Step title="Enable status sync (optional)">
+    Turn on **Sync issue status** if you want Gugu to update a content item's status automatically when the linked GitHub issue is closed or reopened.
+  </Step>
+</Steps>
+
+---
+
+## Zapier
+
+Zapier lets you build automated workflows — called Zaps — between Gugu and thousands of other apps without writing a single line of code.
+
+<Steps>
+  <Step title="Create a Zapier API key">
+    In Gugu, go to **Settings → Integrations → Zapier** and click **Generate API key**. Copy the key — you'll need it in Zapier.
+  </Step>
+
+  <Step title="Set up a new Zap in Zapier">
+    Log in to [zapier.com](https://zapier.com) and click **Create Zap**. Search for **Gugu** as the trigger app and select it.
+  </Step>
+
+  <Step title="Authenticate the Gugu connection">
+    When prompted, paste the API key you generated in step 1. Zapier verifies the connection and confirms it's active.
+  </Step>
+
+  <Step title="Choose a trigger event">
+    Select the Gugu event that should start your Zap — for example, **Content Published** or **Comment Added** — then click **Continue**.
+  </Step>
+
+  <Step title="Configure your action app">
+    Add one or more action steps (e.g., create a Notion page, send a Gmail, post to a Google Sheet) and map the Gugu event data to the fields in your action app. Turn the Zap on when you're ready.
+  </Step>
+</Steps>
+
+<Tip>
+  Zapier is the fastest way to automate repetitive tasks around your content workflow. Popular no-code automations include syncing newly published Gugu items to a Notion database, sending a weekly digest email of all content updates, and creating Trello cards whenever a new draft is created.
+</Tip>
+
+---
+
+## Webhooks
+
+Webhooks let Gugu push event data to any URL you control the moment something happens in your workspace — ideal for custom integrations, internal tools, and serverless functions.
+
+<Steps>
+  <Step title="Open the Webhooks settings">
+    Go to **Settings → Integrations → Webhooks** and click **Add webhook**.
+  </Step>
+
+  <Step title="Enter your endpoint URL">
+    Paste the URL of the server or service that should receive the events. Make sure your endpoint can accept `POST` requests with a JSON body.
+  </Step>
+
+  <Step title="Select events to subscribe to">
+    Check the boxes for the events you want to receive: `content.created`, `content.updated`, `content.published`, `content.deleted`, `comment.created`, or `member.invited`. You can select as many as you need.
+  </Step>
+
+  <Step title="Save and verify the webhook">
+    Click **Save webhook**. Gugu immediately sends a test `ping` event to your endpoint. Confirm that your server received it, then your webhook is live.
+  </Step>
+</Steps>
+
+### Webhook payload format
+
+Every event Gugu sends follows the same envelope structure. Here is an example payload for a `content.created` event:
+
+```json
+{
+  "event": "content.created",
+  "data": {
+    "id": "cnt_abc123",
+    "title": "My Document",
+    "created_at": "2024-01-15T10:30:00Z"
+  }
+}
+```
+
+The `event` field identifies what happened, and the `data` object contains the relevant resource details. All timestamps are in ISO 8601 format (UTC). Your endpoint should return a `2xx` HTTP status code to acknowledge receipt. If Gugu doesn't receive a `2xx` response within 10 seconds, it retries the delivery up to five times using exponential back-off.
+
+<Warning>
+  Protect your webhook endpoint by validating the `X-Gugu-Signature` header included with every request. This header contains an HMAC-SHA256 signature of the raw request body, signed with your webhook's secret key. Reject any requests where the signature doesn't match.
+</Warning>

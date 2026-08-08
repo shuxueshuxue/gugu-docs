@@ -1,0 +1,101 @@
+---
+title: "Full-Text Search: Find Anything in Gugu Fast"
+sidebarTitle: "Search"
+description: "Learn how to use Gugu's powerful full-text search to find content instantly, apply filters, use search operators, and query the search API."
+---
+
+Gugu's full-text search lets you locate any piece of content across your entire workspace in milliseconds. Whether you're hunting for a specific document, a tagged resource, or something you edited last week, search surfaces the right results without making you dig through folders or menus manually.
+
+## Using the Search Bar
+
+You can open the search bar from anywhere in Gugu — no need to navigate to a specific page first.
+
+- **Keyboard shortcut:** Press <kbd>Cmd</kbd>+<kbd>K</kbd> on macOS or <kbd>Ctrl</kbd>+<kbd>K</kbd> on Windows and Linux to open the search palette instantly.
+- **Mouse:** Click the magnifying-glass icon in the top navigation bar.
+
+Start typing and results appear in real time. Press <kbd>↑</kbd> / <kbd>↓</kbd> to move through results and <kbd>Enter</kbd> to open the highlighted item.
+
+<Tip>
+  Wrap your query in double quotes to search for an **exact phrase**. For example, `"quarterly report"` returns only results that contain that precise sequence of words, rather than pages that mention "quarterly" and "report" separately.
+</Tip>
+
+## Search Filters
+
+Narrow your results using the filter controls that appear below the search bar after your first keystroke.
+
+| Filter | Description | Example value |
+|---|---|---|
+| **Content type** | Limit results to a specific kind of content | Documents, Images, Notes, Links |
+| **Date range** | Show only items created or modified within a window | Last 7 days, Last 30 days, Custom |
+| **Tags** | Match items that carry one or more tags | `#design`, `#q4`, `#draft` |
+
+You can combine multiple filters at once. Active filters appear as chips beneath the search input — click the **×** on any chip to remove it.
+
+## Search Operators
+
+For more precise queries, use search operators directly in the search bar.
+
+| Operator | Behavior | Example |
+|---|---|---|
+| `AND` | Both terms must be present | `design AND brief` |
+| `OR` | Either term may be present | `invoice OR receipt` |
+| `NOT` | Exclude a term from results | `report NOT draft` |
+| `"…"` | Exact phrase match | `"product roadmap"` |
+
+Operators are case-insensitive (`and`, `AND`, and `And` all work), and you can nest them with parentheses for complex queries: `(design OR ux) AND NOT archived`.
+
+## Search API
+
+You can query Gugu's search engine programmatically using the REST API. This is useful for building integrations, automating content discovery, or pulling search results into external tools.
+
+```http
+GET /api/search?q=your+query
+```
+
+### Query parameters
+
+| Parameter | Type | Description |
+|---|---|---|
+| `q` | `string` | **Required.** The search query. URL-encode spaces as `+` or `%20`. |
+| `type` | `string` | Filter by content type: `document`, `image`, `note`, `link`. |
+| `from` | `string` | ISO 8601 start date for date-range filtering, e.g. `2024-01-01`. |
+| `to` | `string` | ISO 8601 end date for date-range filtering, e.g. `2024-12-31`. |
+| `tags` | `string` | Comma-separated list of tags to filter by, e.g. `design,draft`. |
+| `limit` | `integer` | Maximum number of results to return. Defaults to `20`, max `100`. |
+| `offset` | `integer` | Number of results to skip for pagination. Defaults to `0`. |
+
+### Example request
+
+```bash
+curl -G "https://api.gugu.app/v1/search" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  --data-urlencode "q=quarterly report" \
+  -d "type=document" \
+  -d "from=2024-01-01" \
+  -d "limit=10"
+```
+
+### Example response
+
+```json
+{
+  "total": 42,
+  "offset": 0,
+  "limit": 10,
+  "results": [
+    {
+      "id": "doc_01hx93k2p",
+      "type": "document",
+      "title": "Q1 Quarterly Report",
+      "excerpt": "…highlights from the <mark>quarterly report</mark> covering January through March…",
+      "tags": ["q1", "finance"],
+      "updatedAt": "2024-03-31T18:22:00Z",
+      "url": "/content/doc_01hx93k2p"
+    }
+  ]
+}
+```
+
+<Note>
+  All search API requests must include a valid `Authorization` header. See the [Authentication](/features/authentication) page for instructions on generating an API key.
+</Note>

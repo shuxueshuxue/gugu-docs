@@ -1,0 +1,83 @@
+---
+title: "Gugu API Authentication — API Keys and Security"
+sidebarTitle: "Authentication"
+description: "Learn how to authenticate with the Gugu API using API keys, understand key scopes, and follow best practices to keep your credentials secure."
+---
+
+Every request you make to the Gugu API must be authenticated. Gugu uses API keys to verify your identity and determine what actions your application is permitted to perform. API keys are long-lived credentials tied to your account, so handling them carefully is essential to keeping your data secure.
+
+## Generating an API Key
+
+You can create an API key directly from your Gugu dashboard.
+
+<Steps>
+  <Step title="Open Settings">
+    Navigate to **Settings** in the main sidebar of your Gugu dashboard.
+  </Step>
+  <Step title="Go to API Keys">
+    Select the **API Keys** tab from the Settings menu.
+  </Step>
+  <Step title="Generate a New Key">
+    Click **Generate New Key**, give it a descriptive name (e.g., `production-backend`), choose the appropriate scope, and confirm. Your new key is displayed once — copy it immediately and store it somewhere safe.
+  </Step>
+</Steps>
+
+## Making Authenticated Requests
+
+Include your API key in the `Authorization` header of every request using the `Bearer` scheme.
+
+```bash
+# Using Authorization header (recommended)
+curl https://api.gugu.app/v1/content \
+  -H "Authorization: Bearer gugu_sk_your_api_key_here"
+```
+
+<Note>
+  All API keys issued by Gugu are prefixed with `gugu_sk_` so you can easily identify them in your codebase and secret scanning tools.
+</Note>
+
+## Authentication Errors
+
+If your API key is missing, malformed, or has been revoked, the API returns a `401 Unauthorized` response with the following JSON body:
+
+```json
+{
+  "error": {
+    "code": "unauthorized",
+    "message": "Invalid or expired API key",
+    "status": 401
+  }
+}
+```
+
+Check that your key is correctly copied, hasn't been deleted from the dashboard, and is being sent in the correct header format.
+
+## Security Best Practices
+
+<Warning>
+  Never embed API keys directly in client-side code, mobile app binaries, or public repositories. Anyone who obtains your key can make authenticated requests on your behalf. If a key is ever exposed, revoke it immediately from **Settings > API Keys** and generate a replacement.
+</Warning>
+
+<Tip>
+  Store API keys in environment variables (e.g., `GUGU_API_KEY`) and load them at runtime. This keeps secrets out of your source code and makes it easy to rotate keys without redeploying your application. Tools like [Doppler](https://www.doppler.com) or [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/) can help you manage secrets at scale.
+</Tip>
+
+<Tip>
+  Rotate your API keys on a regular schedule — at minimum every 90 days — and immediately after any team member with access to the key leaves your organization.
+</Tip>
+
+## Key Scopes and Permissions
+
+When you generate a key, you assign it a **scope** that controls what it can do. Gugu offers two scopes:
+
+<ResponseField name="read-only" type="scope">
+  Grants permission to perform `GET` requests only. Use this scope for integrations that only need to read data — dashboards, reporting tools, or read-only exports. If this key is ever compromised, an attacker cannot modify or delete any of your data.
+</ResponseField>
+
+<ResponseField name="read-write" type="scope">
+  Grants full permission to create, update, and delete resources in addition to reading them. Use this scope only for trusted backend services that need to write data on your behalf.
+</ResponseField>
+
+<Note>
+  Apply the principle of least privilege: always choose **read-only** unless your integration explicitly requires write access.
+</Note>

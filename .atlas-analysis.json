@@ -1,30 +1,11 @@
 {
-  "$schema": "https://mintlify.com/docs.json",
+  "projectType": "saas",
+  "projectName": "Gugu",
+  "projectDescription": "Gugu is a modern web application with authentication, search, and a rich user interface designed to help users organize and explore their content.",
   "theme": "luma",
-  "name": "Gugu",
-  "colors": {
-    "primary": "#6C47FF",
-    "light": "#8B6FFF",
-    "dark": "#4F2FE0"
-  },
-  "favicon": "/favicon.svg",
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
-  "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:support@gugu.app"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Get Started",
-      "href": "/quickstart"
-    }
-  },
+  "primaryColor": "#6C47FF",
+  "lightColor": "#8B6FFF",
+  "darkColor": "#4F2FE0",
   "navigation": {
     "tabs": [
       {
@@ -90,9 +71,26 @@
       }
     ]
   },
-  "footer": {
-    "socials": {
-      "github": "https://github.com/shuxueshuxue"
-    }
-  }
+  "keyFeatures": [
+    "Powerful full-text search across all content",
+    "Secure authentication with multiple sign-in methods",
+    "Intuitive dashboard for content management",
+    "Dark and light theme support",
+    "Real-time collaboration",
+    "REST API for programmatic access",
+    "Customizable user settings and preferences",
+    "Seamless third-party integrations"
+  ],
+  "publicApiSurface": [
+    "GET /api/users",
+    "POST /api/auth/login",
+    "POST /api/auth/logout",
+    "GET /api/content",
+    "POST /api/content",
+    "PUT /api/content/:id",
+    "DELETE /api/content/:id",
+    "GET /api/search?q=",
+    "GET /api/settings",
+    "PUT /api/settings"
+  ]
 }

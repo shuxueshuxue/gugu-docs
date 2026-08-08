@@ -1,0 +1,78 @@
+---
+title: "Gugu API Errors — Status Codes and Error Handling"
+sidebarTitle: "Errors"
+description: "Understand the Gugu API error response format, HTTP status codes, and how to implement retry logic for rate limiting and transient failures."
+---
+
+The Gugu API uses standard HTTP status codes to signal whether a request succeeded or failed. When something goes wrong, the API returns a consistent JSON error object in the response body so your application can handle errors programmatically without parsing human-readable message strings.
+
+## Error Response Format
+
+Every error response follows the same structure:
+
+```json
+{
+  "error": {
+    "code": "string",
+    "message": "Human-readable description",
+    "status": 400,
+    "details": {}
+  }
+}
+```
+
+<ResponseField name="error.code" type="string" required>
+  A machine-readable error code you can use to identify the specific error type in your application logic (e.g., `not_found`, `validation_error`).
+</ResponseField>
+
+<ResponseField name="error.message" type="string" required>
+  A human-readable explanation of what went wrong. This message is suitable for logging, but avoid displaying it directly to end users without sanitization.
+</ResponseField>
+
+<ResponseField name="error.status" type="integer" required>
+  The HTTP status code associated with the error, mirrored inside the response body for convenience.
+</ResponseField>
+
+<ResponseField name="error.details" type="object">
+  An optional object containing additional context about the error — for example, a list of invalid fields returned with a `422 validation_error`.
+</ResponseField>
+
+## HTTP Status Codes
+
+| Status | Code | Description |
+|--------|------|-------------|
+| `400` | `bad_request` | The request is malformed or contains invalid parameters. Check your request body and query string. |
+| `401` | `unauthorized` | No API key was provided, or the key is invalid or expired. |
+| `403` | `forbidden` | Your API key is valid but does not have permission to perform this action. Check your key's scope. |
+| `404` | `not_found` | The requested resource does not exist. Verify the resource ID or endpoint path. |
+| `409` | `conflict` | A resource with the same unique identifier already exists. |
+| `422` | `validation_error` | The request was well-formed but failed validation. Check the `details` field for a breakdown of invalid fields. |
+| `429` | `rate_limited` | You have exceeded your plan's request limit. Wait and retry after the period indicated in the `Retry-After` header. |
+| `500` | `server_error` | An unexpected error occurred on the Gugu servers. These are rare and usually transient — retry the request after a short delay. |
+
+<Note>
+  `4xx` errors indicate a problem with your request that you need to fix before retrying. `5xx` errors indicate a problem on Gugu's side — you can safely retry these with exponential backoff.
+</Note>
+
+## Handling Rate Limit Errors
+
+When your application hits a rate limit, the API returns a `429` response with a `Retry-After` header specifying how many seconds to wait before making the next request. The following example shows a retry helper that reads this header and backs off automatically:
+
+```javascript
+async function fetchWithRetry(url, options, maxRetries = 3) {
+  for (let i = 0; i < maxRetries; i++) {
+    const response = await fetch(url, options);
+    if (response.status !== 429) return response;
+    const retryAfter = response.headers.get('Retry-After') || 60;
+    await new Promise(resolve => setTimeout(resolve, retryAfter * 1000));
+  }
+}
+```
+
+<Tip>
+  Implement exponential backoff for `500` errors in addition to `429` errors. Start with a short delay (e.g., 1 second) and double it on each subsequent retry, capping at a maximum delay of around 30–60 seconds.
+</Tip>
+
+<Warning>
+  Do not retry `4xx` errors (except `429`) in a loop — these indicate a problem with your request that will not resolve on its own. Log the error, inspect the `code` and `details` fields, and fix the underlying issue before retrying.
+</Warning>
