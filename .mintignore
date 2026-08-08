@@ -5,3 +5,9 @@
 # Draft content
 drafts/
 *.draft.mdx
+
+# Repository governance and agent instructions
+.spec/
+.codex/
+AGENTS.md
+CLAUDE.md
