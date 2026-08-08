@@ -6,7 +6,7 @@
 drafts/
 *.draft.mdx
 
-# Repository workflow files are not documentation pages.
+# Repository governance and agent instructions
 .spec/
 .codex/
 AGENTS.md

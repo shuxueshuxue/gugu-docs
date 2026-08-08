@@ -43,6 +43,12 @@
           "contacts",
           "settings"
         ]
+      },
+      {
+        "group": "帮助",
+        "pages": [
+          "troubleshooting"
+        ]
       }
     ]
   },
