@@ -1,7 +1,7 @@
 ---
-title: "Content API — Create and Manage Content Items"
+title: "Content API — Create and Manage Your Content Items"
 sidebarTitle: "Content"
-description: "Create, retrieve, update, and delete content items in your Gugu workspace, with support for tags and collections."
+description: "Create, retrieve, update, and delete content items in your Gugu workspace, with support for tags, collections, and Markdown body text."
 ---
 
 The Content API lets you build and manage the content items that live in your Gugu workspace. Whether you're populating a knowledge base, syncing posts from an external system, or building an editorial pipeline, this API gives you the full range of CRUD operations. All endpoints require a valid Bearer token in the `Authorization` header.
@@ -12,7 +12,7 @@ The Content API lets you build and manage the content items that live in your Gu
 
 Returns a paginated list of content items in your workspace. You can filter by tag or collection and control the sort order.
 
-```
+```text
 GET /v1/content
 ```
 
@@ -46,13 +46,13 @@ GET /v1/content
 
 ```bash
 curl "https://api.gugu.app/v1/content?page=1&per_page=25&tag=announcement&sort=updated_at&order=desc" \
-  -H "Authorization: Bearer YOUR_API_TOKEN"
+  -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
 ### Response fields
 
 <ResponseField name="data" type="array">
-  An array of content objects. See the [content object](#the-content-object) definition below.
+  An array of content objects. See [The content object](#the-content-object) for field descriptions.
 </ResponseField>
 
 <ResponseField name="meta" type="object">
@@ -100,13 +100,25 @@ curl "https://api.gugu.app/v1/content?page=1&per_page=25&tag=announcement&sort=u
 }
 ```
 
+### Error responses
+
+```json
+{
+  "error": {
+    "code": "unauthorized",
+    "message": "Missing or invalid Bearer token.",
+    "status": 401
+  }
+}
+```
+
 ---
 
 ## Create a content item
 
 Creates a new content item in your workspace and returns the full item object.
 
-```
+```text
 POST /v1/content
 ```
 
@@ -132,7 +144,7 @@ POST /v1/content
 
 ```bash
 curl -X POST https://api.gugu.app/v1/content \
-  -H "Authorization: Bearer YOUR_API_TOKEN" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "title": "Q3 Product Update",
@@ -144,7 +156,49 @@ curl -X POST https://api.gugu.app/v1/content \
 
 ### Response fields
 
-Returns the newly created content object. See [the content object](#the-content-object) for field descriptions.
+Returns the newly created content object.
+
+<ResponseField name="id" type="string">
+  Unique identifier for the content item.
+</ResponseField>
+
+<ResponseField name="title" type="string">
+  The title of the content item.
+</ResponseField>
+
+<ResponseField name="body" type="string">
+  The full body text of the content item, in Markdown.
+</ResponseField>
+
+<ResponseField name="tags" type="array">
+  An array of string tags associated with the item.
+</ResponseField>
+
+<ResponseField name="collection_id" type="string | null">
+  The ID of the collection this item belongs to, or `null` if uncategorized.
+</ResponseField>
+
+<ResponseField name="created_at" type="string">
+  ISO 8601 timestamp of when the item was created.
+</ResponseField>
+
+<ResponseField name="updated_at" type="string">
+  ISO 8601 timestamp of the most recent update to the item.
+</ResponseField>
+
+<ResponseField name="author" type="object">
+  The user who created the content item.
+
+  <Expandable title="author fields">
+    <ResponseField name="author.id" type="string">
+      Unique identifier of the author.
+    </ResponseField>
+
+    <ResponseField name="author.name" type="string">
+      Display name of the author.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
 
 ### Example response
 
@@ -164,13 +218,25 @@ Returns the newly created content object. See [the content object](#the-content-
 }
 ```
 
+### Error responses
+
+```json
+{
+  "error": {
+    "code": "validation_error",
+    "message": "title is required.",
+    "status": 400
+  }
+}
+```
+
 ---
 
 ## Get a content item
 
 Retrieves a single content item by its ID.
 
-```
+```text
 GET /v1/content/:id
 ```
 
@@ -184,12 +250,54 @@ GET /v1/content/:id
 
 ```bash
 curl https://api.gugu.app/v1/content/cnt_01abc \
-  -H "Authorization: Bearer YOUR_API_TOKEN"
+  -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
 ### Response fields
 
-Returns the content object. See [the content object](#the-content-object) for field descriptions.
+Returns the content object for the requested item.
+
+<ResponseField name="id" type="string">
+  Unique identifier for the content item.
+</ResponseField>
+
+<ResponseField name="title" type="string">
+  The title of the content item.
+</ResponseField>
+
+<ResponseField name="body" type="string">
+  The full body text of the content item, in Markdown.
+</ResponseField>
+
+<ResponseField name="tags" type="array">
+  An array of string tags associated with the item.
+</ResponseField>
+
+<ResponseField name="collection_id" type="string | null">
+  The ID of the collection this item belongs to, or `null` if uncategorized.
+</ResponseField>
+
+<ResponseField name="created_at" type="string">
+  ISO 8601 timestamp of when the item was created.
+</ResponseField>
+
+<ResponseField name="updated_at" type="string">
+  ISO 8601 timestamp of the most recent update to the item.
+</ResponseField>
+
+<ResponseField name="author" type="object">
+  The user who created the content item.
+
+  <Expandable title="author fields">
+    <ResponseField name="author.id" type="string">
+      Unique identifier of the author.
+    </ResponseField>
+
+    <ResponseField name="author.name" type="string">
+      Display name of the author.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
 
 ### Example response
 
@@ -209,13 +317,25 @@ Returns the content object. See [the content object](#the-content-object) for fi
 }
 ```
 
+### Error responses
+
+```json
+{
+  "error": {
+    "code": "not_found",
+    "message": "No content item found with the given ID.",
+    "status": 404
+  }
+}
+```
+
 ---
 
 ## Update a content item
 
 Updates one or more fields on an existing content item. Only the fields you include in the request body are changed.
 
-```
+```text
 PUT /v1/content/:id
 ```
 
@@ -247,7 +367,7 @@ PUT /v1/content/:id
 
 ```bash
 curl -X PUT https://api.gugu.app/v1/content/cnt_01abc \
-  -H "Authorization: Bearer YOUR_API_TOKEN" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "title": "Q3 Product Update (Revised)",
@@ -257,7 +377,49 @@ curl -X PUT https://api.gugu.app/v1/content/cnt_01abc \
 
 ### Response fields
 
-Returns the updated content object. See [the content object](#the-content-object) for field descriptions.
+Returns the updated content object.
+
+<ResponseField name="id" type="string">
+  Unique identifier for the content item.
+</ResponseField>
+
+<ResponseField name="title" type="string">
+  The updated title of the content item.
+</ResponseField>
+
+<ResponseField name="body" type="string">
+  The full body text of the content item, in Markdown.
+</ResponseField>
+
+<ResponseField name="tags" type="array">
+  The updated array of string tags associated with the item.
+</ResponseField>
+
+<ResponseField name="collection_id" type="string | null">
+  The ID of the collection this item belongs to, or `null` if uncategorized.
+</ResponseField>
+
+<ResponseField name="created_at" type="string">
+  ISO 8601 timestamp of when the item was originally created.
+</ResponseField>
+
+<ResponseField name="updated_at" type="string">
+  ISO 8601 timestamp of this update.
+</ResponseField>
+
+<ResponseField name="author" type="object">
+  The user who created the content item.
+
+  <Expandable title="author fields">
+    <ResponseField name="author.id" type="string">
+      Unique identifier of the author.
+    </ResponseField>
+
+    <ResponseField name="author.name" type="string">
+      Display name of the author.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
 
 ### Example response
 
@@ -277,13 +439,25 @@ Returns the updated content object. See [the content object](#the-content-object
 }
 ```
 
+### Error responses
+
+```json
+{
+  "error": {
+    "code": "not_found",
+    "message": "No content item found with the given ID.",
+    "status": 404
+  }
+}
+```
+
 ---
 
 ## Delete a content item
 
 Permanently deletes a content item. This action cannot be undone.
 
-```
+```text
 DELETE /v1/content/:id
 ```
 
@@ -297,12 +471,24 @@ DELETE /v1/content/:id
 
 ```bash
 curl -X DELETE https://api.gugu.app/v1/content/cnt_01abc \
-  -H "Authorization: Bearer YOUR_API_TOKEN"
+  -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
 ### Response
 
 Returns `204 No Content` on success with an empty response body.
+
+### Error responses
+
+```json
+{
+  "error": {
+    "code": "not_found",
+    "message": "No content item found with the given ID.",
+    "status": 404
+  }
+}
+```
 
 ---
 

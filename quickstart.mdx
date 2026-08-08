@@ -1,5 +1,5 @@
 ---
-title: "Quickstart: Get Up and Running with Gugu Fast"
+title: "Quickstart: Get Up and Running with Gugu in Minutes"
 sidebarTitle: "Quickstart"
 description: "Create your Gugu account, access your dashboard, manage your first piece of content, and make your first API call — all in under ten minutes."
 ---
@@ -50,16 +50,45 @@ This guide walks you through everything you need to go from a brand-new account 
 
 ## Make your first API call
 
-Once you're comfortable with the Gugu interface, you can start using the API to interact with your content programmatically. The example below retrieves a list of all content items in your workspace.
+Once you're comfortable with the Gugu interface, you can start using the REST API to interact with your workspace programmatically. All API requests go to the base URL `https://api.gugu.app/v1`.
+
+### Authenticate and get a session token
+
+Use `POST /api/auth/login` to exchange your credentials for an access token. Pass this token as a `Bearer` header on every subsequent request.
+
+```bash
+curl --request POST \
+  --url https://api.gugu.app/v1/api/auth/login \
+  --header "Content-Type: application/json" \
+  --data '{
+    "email": "you@example.com",
+    "password": "your-password"
+  }'
+```
+
+A successful response returns your access token:
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "expires_at": "2024-06-02T10:23:00Z"
+}
+```
+
+Copy the `token` value — you'll use it in all further API requests.
 
 <Tip>
-  You can find your API key in **Settings → API Keys**. Click **Generate New Key**, give it a name, and copy the key value — you'll use it as the `Authorization` header in every API request.
+  Alternatively, you can generate a long-lived API key in **Settings → API Keys** and use that as your `Bearer` token instead of a session token. API keys are better suited for scripts and automated integrations.
 </Tip>
+
+### Retrieve your content
+
+Once you have a token, call `GET /api/content` to retrieve all content items in your workspace:
 
 ```bash
 curl --request GET \
-  --url https://api.gugu.app/v1/content \
-  --header "Authorization: Bearer YOUR_API_KEY" \
+  --url https://api.gugu.app/v1/api/content \
+  --header "Authorization: Bearer YOUR_TOKEN_OR_API_KEY" \
   --header "Content-Type: application/json"
 ```
 
@@ -84,10 +113,10 @@ A successful response returns a JSON array of your content items:
 }
 ```
 
-Replace `YOUR_API_KEY` with the actual key you copied from Settings. You can use any HTTP client — `curl`, Postman, Insomnia, or your preferred programming language's HTTP library.
+You can use any HTTP client — `curl`, Postman, Insomnia, or your preferred programming language's HTTP library.
 
 <Note>
-  Keep your API key private. Do not commit it to source control or share it publicly. If a key is ever compromised, you can revoke it from **Settings → API Keys** and generate a new one immediately.
+  Keep your token and API keys private. Do not commit them to source control or share them publicly. If a key is ever compromised, you can revoke it from **Settings → API Keys** and generate a new one immediately.
 </Note>
 
 ## What's next?

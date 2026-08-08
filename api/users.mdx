@@ -1,7 +1,7 @@
 ---
-title: "Users API — Manage User Profiles"
+title: "Users API — Manage Your Profile and API Keys in Gugu"
 sidebarTitle: "Users"
-description: "Retrieve and update your profile, and manage API keys for programmatic access to the Gugu platform."
+description: "Retrieve and update your Gugu user profile, and create or revoke API keys to enable secure, programmatic access to the Gugu platform."
 ---
 
 The Users API gives you full control over your Gugu account profile and API credentials. Use it to read or update your display name, avatar, and bio, and to create or revoke the API keys that authenticate your programmatic requests. All endpoints require a valid Bearer token in the `Authorization` header.
@@ -12,7 +12,7 @@ The Users API gives you full control over your Gugu account profile and API cred
 
 Retrieves the profile of the currently authenticated user.
 
-```
+```text
 GET /v1/users/me
 ```
 
@@ -20,7 +20,7 @@ GET /v1/users/me
 
 ```bash
 curl https://api.gugu.app/v1/users/me \
-  -H "Authorization: Bearer YOUR_API_TOKEN"
+  -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
 ### Response fields
@@ -62,13 +62,25 @@ curl https://api.gugu.app/v1/users/me \
 }
 ```
 
+### Error responses
+
+```json
+{
+  "error": {
+    "code": "unauthorized",
+    "message": "Missing or invalid Bearer token.",
+    "status": 401
+  }
+}
+```
+
 ---
 
 ## Update current user
 
 Updates the profile fields of the currently authenticated user. Only the fields you include in the request body are changed; omitted fields are left untouched.
 
-```
+```text
 PUT /v1/users/me
 ```
 
@@ -90,7 +102,7 @@ PUT /v1/users/me
 
 ```bash
 curl -X PUT https://api.gugu.app/v1/users/me \
-  -H "Authorization: Bearer YOUR_API_TOKEN" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Ada Lovelace",
@@ -143,13 +155,25 @@ curl -X PUT https://api.gugu.app/v1/users/me \
 }
 ```
 
+### Error responses
+
+```json
+{
+  "error": {
+    "code": "validation_error",
+    "message": "avatar_url must be a valid HTTPS URL.",
+    "status": 400
+  }
+}
+```
+
 ---
 
 ## List API keys
 
 Returns all API keys associated with your account. For security, the full key value is never returned by this endpoint — only the prefix and metadata.
 
-```
+```text
 GET /v1/users/me/api-keys
 ```
 
@@ -157,7 +181,7 @@ GET /v1/users/me/api-keys
 
 ```bash
 curl https://api.gugu.app/v1/users/me/api-keys \
-  -H "Authorization: Bearer YOUR_API_TOKEN"
+  -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
 ### Response fields
@@ -211,13 +235,25 @@ The response is an array of API key objects.
 ]
 ```
 
+### Error responses
+
+```json
+{
+  "error": {
+    "code": "unauthorized",
+    "message": "Missing or invalid Bearer token.",
+    "status": 401
+  }
+}
+```
+
 ---
 
 ## Create an API key
 
 Generates a new API key for your account. You can scope the key to limit what operations it can perform.
 
-```
+```text
 POST /v1/users/me/api-keys
 ```
 
@@ -239,7 +275,7 @@ POST /v1/users/me/api-keys
 
 ```bash
 curl -X POST https://api.gugu.app/v1/users/me/api-keys \
-  -H "Authorization: Bearer YOUR_API_TOKEN" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "CI Pipeline",
@@ -286,13 +322,25 @@ curl -X POST https://api.gugu.app/v1/users/me/api-keys \
 }
 ```
 
+### Error responses
+
+```json
+{
+  "error": {
+    "code": "validation_error",
+    "message": "name is required.",
+    "status": 400
+  }
+}
+```
+
 ---
 
 ## Revoke an API key
 
 Permanently revokes an API key. Any requests authenticated with the revoked key will immediately begin receiving `401 Unauthorized` responses. This action cannot be undone.
 
-```
+```text
 DELETE /v1/users/me/api-keys/:id
 ```
 
@@ -306,12 +354,24 @@ DELETE /v1/users/me/api-keys/:id
 
 ```bash
 curl -X DELETE https://api.gugu.app/v1/users/me/api-keys/key_03ghi \
-  -H "Authorization: Bearer YOUR_API_TOKEN"
+  -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
 ### Response
 
 Returns `204 No Content` on success with an empty response body.
+
+### Error responses
+
+```json
+{
+  "error": {
+    "code": "not_found",
+    "message": "No API key found with the given ID.",
+    "status": 404
+  }
+}
+```
 
 <Tip>
   If you suspect a key has been compromised, revoke it immediately and audit your recent API activity in the Gugu dashboard before creating a replacement.

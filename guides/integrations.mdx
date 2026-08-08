@@ -1,5 +1,5 @@
 ---
-title: "Connect Gugu to Your Favorite Tools and Services"
+title: "Integrate Gugu with Slack, GitHub, Zapier, and More"
 sidebarTitle: "Integrations"
 description: "Learn how to integrate Gugu with Slack, GitHub, Zapier, and webhooks to automate workflows and keep your tools in sync with your content."
 ---
@@ -9,16 +9,16 @@ Gugu connects to the tools your team already uses so that content updates, notif
 ## Available integrations
 
 <CardGroup cols={2}>
-  <Card title="Slack" icon="slack">
+  <Card title="Slack" icon="slack" href="#slack">
     Get real-time notifications in your Slack channels whenever content is created, updated, published, or commented on.
   </Card>
-  <Card title="GitHub" icon="github">
+  <Card title="GitHub" icon="github" href="#github">
     Link content items directly to GitHub repositories and issues, keeping your documentation and code changes in sync.
   </Card>
-  <Card title="Zapier" icon="bolt">
+  <Card title="Zapier" icon="bolt" href="#zapier">
     Connect Gugu to more than 5,000 apps through Zapier's no-code automation platform — no engineering work required.
   </Card>
-  <Card title="Webhooks" icon="webhook">
+  <Card title="Webhooks" icon="webhook" href="#webhooks">
     Send real-time event payloads to any URL, giving you full flexibility to build custom workflows and integrations.
   </Card>
 </CardGroup>
@@ -107,7 +107,7 @@ Zapier lets you build automated workflows — called Zaps — between Gugu and t
 
 ## Webhooks
 
-Webhooks let Gugu push event data to any URL you control the moment something happens in your workspace — ideal for custom integrations, internal tools, and serverless functions.
+Webhooks let Gugu push event data to any URL you control the moment something happens in your workspace — ideal for custom integrations, third-party services, and serverless functions.
 
 <Steps>
   <Step title="Open the Webhooks settings">
@@ -144,6 +144,37 @@ Every event Gugu sends follows the same envelope structure. Here is an example p
 
 The `event` field identifies what happened, and the `data` object contains the relevant resource details. All timestamps are in ISO 8601 format (UTC). Your endpoint should return a `2xx` HTTP status code to acknowledge receipt. If Gugu doesn't receive a `2xx` response within 10 seconds, it retries the delivery up to five times using exponential back-off.
 
+### Validating webhook signatures
+
+Every webhook request from Gugu includes an `X-Gugu-Signature` header — an HMAC-SHA256 signature of the raw request body, signed with the secret key shown in your webhook settings. Always verify this signature before processing the payload to confirm the request genuinely came from Gugu.
+
+```javascript
+const crypto = require("crypto");
+
+function isValidSignature(rawBody, signatureHeader, secret) {
+  const expected = crypto
+    .createHmac("sha256", secret)
+    .update(rawBody)
+    .digest("hex");
+  const actual = signatureHeader ?? "";
+  return crypto.timingSafeEqual(
+    Buffer.from(`sha256=${expected}`),
+    Buffer.from(actual)
+  );
+}
+
+// Express.js example
+app.post("/webhook", express.raw({ type: "application/json" }), (req, res) => {
+  const signature = req.headers["x-gugu-signature"];
+  if (!isValidSignature(req.body, signature, process.env.GUGU_WEBHOOK_SECRET)) {
+    return res.status(401).send("Invalid signature");
+  }
+  const event = JSON.parse(req.body);
+  // handle event...
+  res.sendStatus(200);
+});
+```
+
 <Warning>
-  Protect your webhook endpoint by validating the `X-Gugu-Signature` header included with every request. This header contains an HMAC-SHA256 signature of the raw request body, signed with your webhook's secret key. Reject any requests where the signature doesn't match.
+  Reject any request where the `X-Gugu-Signature` header is missing or does not match the expected value. Use a timing-safe comparison (like `crypto.timingSafeEqual` in Node.js) to prevent timing attacks.
 </Warning>

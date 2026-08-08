@@ -1,5 +1,5 @@
 ---
-title: "Gugu API Authentication — API Keys and Security"
+title: "Gugu API Authentication — API Keys and Bearer Tokens"
 sidebarTitle: "Authentication"
 description: "Learn how to authenticate with the Gugu API using API keys, understand key scopes, and follow best practices to keep your credentials secure."
 ---
@@ -70,13 +70,13 @@ Check that your key is correctly copied, hasn't been deleted from the dashboard,
 
 When you generate a key, you assign it a **scope** that controls what it can do. Gugu offers two scopes:
 
-<ResponseField name="read-only" type="scope">
+<ParamField body="read-only" type="scope">
   Grants permission to perform `GET` requests only. Use this scope for integrations that only need to read data — dashboards, reporting tools, or read-only exports. If this key is ever compromised, an attacker cannot modify or delete any of your data.
-</ResponseField>
+</ParamField>
 
-<ResponseField name="read-write" type="scope">
+<ParamField body="read-write" type="scope">
   Grants full permission to create, update, and delete resources in addition to reading them. Use this scope only for trusted backend services that need to write data on your behalf.
-</ResponseField>
+</ParamField>
 
 <Note>
   Apply the principle of least privilege: always choose **read-only** unless your integration explicitly requires write access.

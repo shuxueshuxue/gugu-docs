@@ -1,7 +1,7 @@
 ---
-title: "Search API — Full-Text Search Across Content"
+title: "Search API — Full-Text Search Across Your Workspace"
 sidebarTitle: "Search"
-description: "Run full-text searches across your Gugu workspace with filters for type, tag, and date range to surface the most relevant content."
+description: "Run full-text searches across your Gugu workspace with filters for content type, tag, and date range to surface the most relevant results."
 ---
 
 The Search API lets you query all content in your Gugu workspace using full-text search. It supports filtering by content type, tag, and date range, giving you precise control over what results you surface. Responses are ranked by relevance score so the most pertinent items always appear first. All requests require a valid Bearer token in the `Authorization` header.
@@ -12,7 +12,7 @@ The Search API lets you query all content in your Gugu workspace using full-text
 
 Performs a full-text search across your workspace and returns ranked, paginated results.
 
-```
+```text
 GET /v1/search
 ```
 
@@ -50,7 +50,7 @@ GET /v1/search
 
 ```bash
 curl "https://api.gugu.app/v1/search?q=project+roadmap&tag=important&per_page=20" \
-  -H "Authorization: Bearer YOUR_API_TOKEN"
+  -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
 ### Response fields
@@ -144,6 +144,18 @@ curl "https://api.gugu.app/v1/search?q=project+roadmap&tag=important&per_page=20
 }
 ```
 
+### Error responses
+
+```json
+{
+  "error": {
+    "code": "validation_error",
+    "message": "q is required.",
+    "status": 400
+  }
+}
+```
+
 ---
 
 ## Query syntax
@@ -154,7 +166,7 @@ The `q` parameter supports a rich query syntax that gives you fine-grained contr
 
 Wrap multiple words in double quotes to search for an exact phrase rather than individual keywords.
 
-```
+```text
 "project roadmap"
 ```
 
@@ -172,7 +184,7 @@ Combine terms with `AND`, `OR`, and `NOT` to build compound queries. Operators m
 
 You can mix operators and phrases in a single query:
 
-```
+```text
 "project roadmap" AND (Q3 OR Q4) NOT archived
 ```
 

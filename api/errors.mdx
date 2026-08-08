@@ -15,8 +15,7 @@ Every error response follows the same structure:
   "error": {
     "code": "string",
     "message": "Human-readable description",
-    "status": 400,
-    "details": {}
+    "status": 400
   }
 }
 ```
@@ -33,10 +32,6 @@ Every error response follows the same structure:
   The HTTP status code associated with the error, mirrored inside the response body for convenience.
 </ResponseField>
 
-<ResponseField name="error.details" type="object">
-  An optional object containing additional context about the error — for example, a list of invalid fields returned with a `422 validation_error`.
-</ResponseField>
-
 ## HTTP Status Codes
 
 | Status | Code | Description |
@@ -46,7 +41,7 @@ Every error response follows the same structure:
 | `403` | `forbidden` | Your API key is valid but does not have permission to perform this action. Check your key's scope. |
 | `404` | `not_found` | The requested resource does not exist. Verify the resource ID or endpoint path. |
 | `409` | `conflict` | A resource with the same unique identifier already exists. |
-| `422` | `validation_error` | The request was well-formed but failed validation. Check the `details` field for a breakdown of invalid fields. |
+| `422` | `validation_error` | The request was well-formed but failed validation. Check the `message` field for a description of which fields are invalid. |
 | `429` | `rate_limited` | You have exceeded your plan's request limit. Wait and retry after the period indicated in the `Retry-After` header. |
 | `500` | `server_error` | An unexpected error occurred on the Gugu servers. These are rare and usually transient — retry the request after a short delay. |
 
@@ -74,5 +69,5 @@ async function fetchWithRetry(url, options, maxRetries = 3) {
 </Tip>
 
 <Warning>
-  Do not retry `4xx` errors (except `429`) in a loop — these indicate a problem with your request that will not resolve on its own. Log the error, inspect the `code` and `details` fields, and fix the underlying issue before retrying.
+  Do not retry `4xx` errors (except `429`) in a loop — these indicate a problem with your request that will not resolve on its own. Log the error, inspect the `code` and `message` fields, and fix the underlying issue before retrying.
 </Warning>
