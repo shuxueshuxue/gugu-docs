@@ -46,8 +46,8 @@ description: "下载安装、邮箱验证码登录、创建第一个 agent、发
 
 ## 引擎的前置条件
 
-- **Claude Code 和 Codex** 的运行时随应用一起打包，不用另外装。它们沿用你这台机器上已有的配置和登录状态（`~/.claude`、`~/.codex/config.toml`）。
-- **Gemini、opencode、Hermes、openclaw** 是外部 CLI，得你自己先在那台机器上装好。没装的话创建会明确失败，不会自动改用别的引擎。
+- **Claude Code 和 Codex** 不用你手动装。你那台机器上如果已经装了，咕咕直接用你装的那个，连同它的配置和登录状态（`~/.claude`、`~/.codex/config.toml`）；没装的话，咕咕第一次用到时自己下载一份运行时，右下角有进度，下载失败可以重试。所以第一次创建这两种 agent 需要联网。
+- **Gemini、opencode、Hermes、openclaw** 是外部 CLI，得你自己先在那台机器上装好，并且能从 PATH 找到。没装的话创建会明确失败，不会自动改用别的引擎。
 - **云端 Agent** 跑在咕咕的服务器上，本机不用装任何东西，也不占你的机器。
 
 ## 手机版
