@@ -5,3 +5,9 @@
 # Draft content
 drafts/
 *.draft.mdx
+
+# Repository workflow files are not documentation pages.
+.spec/
+.codex/
+AGENTS.md
+CLAUDE.md
