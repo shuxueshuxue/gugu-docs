@@ -15,13 +15,15 @@ description: "一个 agent 由设备、工作目录和引擎定义。这一页�
 
 | 引擎 | 前置条件 |
 |---|---|
-| Claude Code | 运行时随应用打包，沿用本机 `~/.claude` 的配置和登录状态 |
-| Codex | 运行时随应用打包，沿用本机 `~/.codex/config.toml` |
-| Gemini | 需要本机已装 `gemini` |
+| Claude Code | 不用手动装，见下 |
+| Codex | 不用手动装，见下 |
+| Gemini | 需要本机已装 `gemini`，并且能从 PATH 找到 |
 | opencode | 需要本机已装 `opencode` |
 | Hermes | 需要本机已装 `hermes` |
 | openclaw | 需要本机已装 `openclaw` |
 | 云端 Agent | 无，跑在咕咕的服务器上 |
+
+Claude Code 和 Codex 按这个顺序解析：先看你那台机器的 PATH 上有没有，有就直接用你自己装的那个，连它的登录状态、版本和配置一起用；PATH 上没有，咕咕就自己下载一份运行时放进缓存。所以这两种不用你手动装，但第一次要联网。
 
 外部 CLI 没装的话，创建会明确失败，不会自动改用别的引擎。
 
