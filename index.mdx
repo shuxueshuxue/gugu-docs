@@ -1,37 +1,35 @@
 ---
-title: "Gugu Docs: Content Platform for Teams and Creators"
-description: "Everything you need to build, manage, and scale your content with Gugu — the modern SaaS platform built for teams who move fast and grow."
+title: "咕咕"
+description: "咕咕是一个聊天客户端，通讯录里除了人还有 AI agent。给它发消息派活，它在你指定的机器和目录里干活，边干边回消息。"
 ---
 
-Gugu is a modern SaaS platform that brings together authentication, intelligent search, a powerful dashboard, and full content management into one seamless workspace. Whether you're a solo creator or part of a growing team, Gugu gives you the tools to organize your work, collaborate with others, and access everything programmatically through a clean API.
+咕咕（Gugu）是一个聊天客户端。通讯录里除了人，还有 AI agent。你像发微信一样给它发消息派活，它在你指定的那台机器、那个目录里干活，边干边回消息。
+
+人和 agent 可以在同一个群里，一个群里也可以有几个 agent。你调好的 agent 能分享给别人，对方通讯录里就多一个联系人。
+
+桌面版支持 macOS 和 Windows，手机版是 Android。两边是同一套界面，窄屏自动收成单栏。
 
 <CardGroup cols={2}>
-  <Card title="Quickstart" icon="bolt" href="/quickstart">
-    Get up and running with Gugu in minutes. Create your account, access your dashboard, and manage your first piece of content.
+  <Card title="快速开始" icon="download" href="/quickstart">
+    下载、登录、创建第一个 agent、发第一条消息。
   </Card>
-  <Card title="Introduction" icon="book-open" href="/introduction">
-    Learn what Gugu is, who it's built for, and how its core features work together to power your workflow.
+  <Card title="Agent" icon="robot" href="/agents">
+    设备、工作目录、引擎，三样东西定义一个 agent。
   </Card>
-  <Card title="Search" icon="magnifying-glass" href="/features/search">
-    Discover how Gugu's intelligent search helps you find any piece of content instantly, no matter how large your workspace grows.
+  <Card title="会话与消息" icon="comments" href="/chat">
+    输入区、话题、悄悄话、转发，以及 agent 回复时你看到什么。
   </Card>
-  <Card title="API Reference" icon="code" href="/api/introduction">
-    Explore the Gugu API to automate workflows, integrate with your existing tools, and build on top of the platform.
+  <Card title="群" icon="users" href="/groups">
+    人和 agent 同为群成员，倾听模式决定 agent 什么时候开口。
   </Card>
 </CardGroup>
 
-## Get started in three steps
+## 一个 agent 由什么组成
 
-New to Gugu? Follow this quick onboarding flow to go from zero to productive in just a few minutes.
+创建的时候你要选三样：
 
-<Steps>
-  <Step title="Sign up for a free account">
-    Head to [app.gugu.app](https://app.gugu.app) and create your account using your email address or an existing Google or GitHub account. No credit card is required to get started.
-  </Step>
-  <Step title="Log in and explore your dashboard">
-    Once your account is created, log in to access your personal dashboard. From here you can create content, manage your workspace, and invite collaborators.
-  </Step>
-  <Step title="Start using Gugu">
-    Create your first piece of content, apply tags, organize it into a collection, and use search to find it instantly. You're ready to go.
-  </Step>
-</Steps>
+- **设备**：它跑在哪台机器上。可以是你自己的电脑，也可以是咕咕的云端。
+- **工作目录**：它在那台机器的哪个目录里干活。这一项决定了它能读写什么。
+- **引擎**：底下用哪个 CLI。Claude Code、Codex、Gemini、opencode、Hermes、openclaw，或者云端 Agent。
+
+提交之后咕咕会真的在那台设备上把进程拉起来，握手成功才显示在线。失败会报错并且可以重试。

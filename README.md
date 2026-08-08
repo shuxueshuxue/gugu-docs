@@ -1,55 +1,29 @@
-# Mintlify Starter Kit
+# 咕咕文档站
 
-Use the starter kit to get your docs deployed and ready to customize.
+[咕咕（Gugu）](https://gugu.nextmind.space)的用户文档，Mintlify 站点，中文。
 
-Click the green **Use this template** button at the top of this repo to copy the Mintlify starter kit. The starter kit contains examples with
+## 内容
 
-- Guide pages
-- Navigation
-- Customizations
-- API reference pages
-- Use of popular components
+| 文件 | 内容 |
+|---|---|
+| `index.mdx` | 咕咕是什么 |
+| `quickstart.mdx` | 下载、登录、创建第一个 agent、发第一条消息 |
+| `agents.mdx` | 设备、工作目录、引擎；状态；agent 设置 |
+| `chat.mdx` | 输入区、话题、悄悄话、agent 回复时的显示 |
+| `groups.mdx` | 群成员与角色、倾听模式、群资料库 |
+| `contacts.mdx` | 咕咕号、加好友、分享 agent、发现页 |
 
-**[Follow the full quickstart guide](https://starter.mintlify.com/quickstart)**
+导航和站点配置在 `docs.json`。
 
-## AI-assisted writing
+## 本地预览
 
-Set up your AI coding tool to work with Mintlify:
-
-```bash
-npx skills add https://mintlify.com/docs
-```
-
-This command installs Mintlify's documentation skill for your configured AI tools like Claude Code, Cursor, Windsurf, and others. The skill includes component reference, writing standards, and workflow guidance.
-
-See the [AI tools guides](/ai-tools) for tool-specific setup.
-
-## Development
-
-Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview your documentation changes locally. To install, use the following command:
-
-```
+```sh
 npm i -g mint
-```
-
-Run the following command at the root of your documentation, where your `docs.json` is located:
-
-```
 mint dev
 ```
 
-View your local preview at `http://localhost:3000`.
+打开 http://localhost:3000。
 
-## Publishing changes
+## 改之前先读 AGENTS.md
 
-Install our GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app) to propagate changes from your repo to your deployment. Changes are deployed to production automatically after pushing to the default branch.
-
-## Need help?
-
-### Troubleshooting
-
-- If your dev environment isn't running: Run `mint update` to ensure you have the most recent version of the CLI.
-- If a page loads as a 404: Make sure you are running in a folder with a valid `docs.json`.
-
-### Resources
-- [Mintlify documentation](https://mintlify.com/docs)
+这份文档的每一条都要能在产品仓库（`nmhjklnm/gugu`）的 spec 树或者真实运行的产品里找到出处。`AGENTS.md` 写了事实从哪里取、哪些东西不能写。

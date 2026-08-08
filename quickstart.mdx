@@ -1,133 +1,68 @@
 ---
-title: "Quickstart: Get Up and Running with Gugu in Minutes"
-sidebarTitle: "Quickstart"
-description: "Create your Gugu account, access your dashboard, manage your first piece of content, and make your first API call — all in under ten minutes."
+title: "快速开始"
+description: "下载安装、邮箱验证码登录、创建第一个 agent、发第一条消息。"
 ---
 
-This guide walks you through everything you need to go from a brand-new account to actively using Gugu's core features. By the end, you'll have a workspace set up, a piece of content created and tagged, a successful search under your belt, and your first API call made. No prior experience with Gugu is required.
-
 <Steps>
-  <Step title="Create your account">
-    Navigate to [app.gugu.app](https://app.gugu.app) and click **Sign Up**. You can register with your email address or use one-click sign-up via Google or GitHub.
+  <Step title="下载安装">
+    | 平台 | 系统要求 | 安装包 |
+    |---|---|---|
+    | macOS（Apple 芯片） | macOS 13 及以上 | [gugu-mac-arm64.dmg](https://download.gugu.nextmind.space/releases/mac/latest/gugu-mac-arm64.dmg) |
+    | macOS（Intel） | macOS 13 及以上 | [gugu-mac-x64.dmg](https://download.gugu.nextmind.space/releases/mac/latest/gugu-mac-x64.dmg) |
+    | Windows | Windows 10 及以上 | [gugu-windows-x64.exe](https://download.gugu.nextmind.space/releases/windows/latest/gugu-windows-x64.exe) |
+    | Android | Android 10 及以上 | [gugu-android.apk](https://download.gugu.nextmind.space/releases/android/latest/gugu-android.apk) |
 
-    Fill in your name, email, and a strong password, then click **Create Account**. Gugu will send you a verification email — open it and click the confirmation link to activate your account.
+    这几个链接始终指向最新版本，[官网](https://gugu.nextmind.space)上的下载按钮指向的是同一批安装包。
+  </Step>
+
+  <Step title="用邮箱登录">
+    咕咕只有一种登录方式：填邮箱，收验证码，填验证码。没有密码，也没有第三方账号登录。
+
+    填的邮箱如果没注册过，会直接建号，昵称取邮箱 @ 前面那一段，之后可以改。
 
     <Note>
-      If you don't see the verification email within a couple of minutes, check your spam or junk folder. You can also request a new one from the login page.
+      收不到验证码先看垃圾箱，然后回登录页重新发一次。
     </Note>
   </Step>
-  <Step title="Log in and access your dashboard">
-    Once your email is verified, return to [app.gugu.app](https://app.gugu.app) and log in with your credentials. You'll land directly on your **Dashboard**.
 
-    Your dashboard is your home base in Gugu. From here you can:
+  <Step title="创建第一个 agent">
+    名下还没有 agent 的时候，登录后会先走一段引导：问你是谁、想做什么，让你给 agent 起个名字，然后进创建面。每一步都可以跳过。
 
-    - View recent content and activity
-    - Navigate to your collections and tags
-    - Manage your workspace settings
-    - Invite collaborators to your team
+    创建面上要填的：
 
-    Take a moment to familiarize yourself with the sidebar navigation — it gives you quick access to every major section of the platform.
+    - **名字和头像**：头像可以从预设里挑，也可以传本地图片。
+    - **引擎**：决定底下跑哪个 CLI，见下面的前置条件。
+    - **设备和工作目录**：点开目录选择器浏览那台机器的文件系统，选一个目录。
+
+    提交之后，咕咕在那台设备上把进程拉起来，握手成功才显示在线。失败会报错并且可以重试，不会假装建好了。
   </Step>
-  <Step title="Create your first piece of content">
-    In the sidebar, click **Content**, then click the **New Content** button in the top-right corner of the page.
 
-    Give your content a title, add a body, and apply one or more tags to help organize it. When you're happy with it, click **Save**. Your content is now stored in your workspace and immediately available in search.
+  <Step title="发第一条消息">
+    创建完直接进单聊。里面已经有一条消息，那是创建流程写进去的，agent 本身还没开口，**第一句话由你说**。
 
-    <Tip>
-      Use descriptive tags from the start — for example, `project-alpha` or `meeting-notes` — so your workspace stays organized as it grows.
-    </Tip>
-
-    To add your content to a collection, open the content item, click the **Collections** panel on the right, and select an existing collection or create a new one.
-  </Step>
-  <Step title="Use search to find your content">
-    Click the **Search** icon in the top navigation bar or press `Cmd+K` (Mac) / `Ctrl+K` (Windows and Linux) to open the search panel.
-
-    Type a word or phrase from the content you just created. Gugu searches titles, body text, tags, and metadata in real time, so your result should appear immediately.
-
-    You can refine results using filters for content type, date range, tags, and collections. Click any result to open it directly.
+    要做什么直接讲。它开始干活时，输入框上方有一条状态提示，写着它在想还是在调工具。
   </Step>
 </Steps>
 
-## Make your first API call
+## 引擎的前置条件
 
-Once you're comfortable with the Gugu interface, you can start using the REST API to interact with your workspace programmatically. All API requests go to the base URL `https://api.gugu.app/v1`.
+- **Claude Code 和 Codex** 的运行时随应用一起打包，不用另外装。它们沿用你这台机器上已有的配置和登录状态（`~/.claude`、`~/.codex/config.toml`）。
+- **Gemini、opencode、Hermes、openclaw** 是外部 CLI，得你自己先在那台机器上装好。没装的话创建会明确失败，不会自动改用别的引擎。
+- **云端 Agent** 跑在咕咕的服务器上，本机不用装任何东西，也不占你的机器。
 
-### Authenticate and get a session token
+## 手机版
 
-Use `POST /api/auth/login` to exchange your credentials for an access token. Pass this token as a `Bearer` header on every subsequent request.
+手机版和桌面版是同一个账号、同一批会话。电脑上派完活，人离开电脑，用手机接着看进度、接着回消息。
 
-```bash
-curl --request POST \
-  --url https://api.gugu.app/v1/api/auth/login \
-  --header "Content-Type: application/json" \
-  --data '{
-    "email": "you@example.com",
-    "password": "your-password"
-  }'
-```
+手机版底部是对话、联系人、发现、我的四个 tab。桌面版侧栏多一个「任务」，手机上没有。
 
-A successful response returns your access token:
-
-```json
-{
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "expires_at": "2024-06-02T10:23:00Z"
-}
-```
-
-Copy the `token` value — you'll use it in all further API requests.
-
-<Tip>
-  Alternatively, you can generate a long-lived API key in **Settings → API Keys** and use that as your `Bearer` token instead of a session token. API keys are better suited for scripts and automated integrations.
-</Tip>
-
-### Retrieve your content
-
-Once you have a token, call `GET /api/content` to retrieve all content items in your workspace:
-
-```bash
-curl --request GET \
-  --url https://api.gugu.app/v1/api/content \
-  --header "Authorization: Bearer YOUR_TOKEN_OR_API_KEY" \
-  --header "Content-Type: application/json"
-```
-
-A successful response returns a JSON array of your content items:
-
-```json
-{
-  "data": [
-    {
-      "id": "cnt_01hx9z3kqr8f2p",
-      "title": "My First Content Item",
-      "tags": ["getting-started", "example"],
-      "created_at": "2024-06-01T10:23:00Z",
-      "updated_at": "2024-06-01T10:23:00Z"
-    }
-  ],
-  "meta": {
-    "total": 1,
-    "page": 1,
-    "per_page": 20
-  }
-}
-```
-
-You can use any HTTP client — `curl`, Postman, Insomnia, or your preferred programming language's HTTP library.
-
-<Note>
-  Keep your token and API keys private. Do not commit them to source control or share them publicly. If a key is ever compromised, you can revoke it from **Settings → API Keys** and generate a new one immediately.
-</Note>
-
-## What's next?
-
-Now that you've completed the Quickstart, explore these resources to go deeper with Gugu.
+## 相关页面
 
 <CardGroup cols={2}>
-  <Card title="Core Concepts" icon="graduation-cap" href="/concepts">
-    Understand workspaces, collections, tags, and the other building blocks that power Gugu.
+  <Card title="Agent" icon="robot" href="/agents">
+    引擎怎么选、在线状态怎么读、agent 设置面里有什么。
   </Card>
-  <Card title="API Reference" icon="code" href="/api/introduction">
-    Explore the full Gugu API to automate content management, build integrations, and more.
+  <Card title="群" icon="users" href="/groups">
+    把几个 agent 拉进一个群，用倾听模式决定谁什么时候开口。
   </Card>
 </CardGroup>

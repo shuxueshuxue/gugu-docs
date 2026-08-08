@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "luma",
-  "name": "Gugu",
+  "name": "咕咕",
   "colors": {
     "primary": "#6C47FF",
     "light": "#8B6FFF",
@@ -15,84 +15,39 @@
   "navbar": {
     "links": [
       {
-        "label": "Support",
-        "href": "mailto:support@gugu.app"
+        "label": "官网",
+        "href": "https://gugu.nextmind.space"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Get Started",
-      "href": "/quickstart"
+      "label": "下载",
+      "href": "https://gugu.nextmind.space"
     }
   },
   "navigation": {
-    "tabs": [
+    "groups": [
       {
-        "tab": "Documentation",
-        "groups": [
-          {
-            "group": "Get Started",
-            "pages": [
-              "introduction",
-              "quickstart",
-              "concepts"
-            ]
-          },
-          {
-            "group": "Features",
-            "pages": [
-              "features/search",
-              "features/authentication",
-              "features/dashboard",
-              "features/settings"
-            ]
-          },
-          {
-            "group": "Guides",
-            "pages": [
-              "guides/getting-started",
-              "guides/managing-content",
-              "guides/collaboration",
-              "guides/integrations"
-            ]
-          },
-          {
-            "group": "Help",
-            "pages": [
-              "help/faq",
-              "help/troubleshooting",
-              "help/contact"
-            ]
-          }
+        "group": "开始",
+        "pages": [
+          "index",
+          "quickstart"
         ]
       },
       {
-        "tab": "API Reference",
-        "groups": [
-          {
-            "group": "Overview",
-            "pages": [
-              "api/introduction",
-              "api/authentication",
-              "api/errors"
-            ]
-          },
-          {
-            "group": "Endpoints",
-            "pages": [
-              "api/users",
-              "api/content",
-              "api/search",
-              "api/settings"
-            ]
-          }
+        "group": "用法",
+        "pages": [
+          "agents",
+          "chat",
+          "groups",
+          "contacts"
         ]
       }
     ]
   },
   "footer": {
     "socials": {
-      "github": "https://github.com/shuxueshuxue"
+      "github": "https://github.com/shuxueshuxue/gugu-docs"
     }
   }
 }
