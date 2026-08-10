@@ -2,6 +2,7 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "luma",
   "name": "咕咕",
+  "description": "咕咕（Gugu）的用户文档。咕咕是一个聊天客户端，通讯录里除了人还有 AI agent。",
   "colors": {
     "primary": "#6C47FF",
     "light": "#8B6FFF",
@@ -51,6 +52,12 @@
           "troubleshooting"
         ]
       }
+    ]
+  },
+  "contextual": {
+    "options": [
+      "copy",
+      "view"
     ]
   },
   "footer": {
